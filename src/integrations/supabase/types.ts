@@ -14,7 +14,150 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      courses: {
+        Row: {
+          created_at: string
+          description: string
+          domain: string
+          duration: string
+          id: string
+          level: string
+          prerequisite: string
+          provider: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          domain: string
+          duration: string
+          id?: string
+          level: string
+          prerequisite?: string
+          provider: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          domain?: string
+          duration?: string
+          id?: string
+          level?: string
+          prerequisite?: string
+          provider?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      recommendations: {
+        Row: {
+          assessment_id: string | null
+          course_id: string
+          created_at: string
+          id: string
+          score: number
+          student_id: string
+        }
+        Insert: {
+          assessment_id?: string | null
+          course_id: string
+          created_at?: string
+          id?: string
+          score: number
+          student_id: string
+        }
+        Update: {
+          assessment_id?: string | null
+          course_id?: string
+          created_at?: string
+          id?: string
+          score?: number
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recommendations_assessment_id_fkey"
+            columns: ["assessment_id"]
+            isOneToOne: false
+            referencedRelation: "skill_assessments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recommendations_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recommendations_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      skill_assessments: {
+        Row: {
+          career_goal: string
+          created_at: string
+          id: string
+          interests: string[]
+          skill_level: string
+          student_id: string
+        }
+        Insert: {
+          career_goal: string
+          created_at?: string
+          id?: string
+          interests?: string[]
+          skill_level: string
+          student_id: string
+        }
+        Update: {
+          career_goal?: string
+          created_at?: string
+          id?: string
+          interests?: string[]
+          skill_level?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "skill_assessments_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      students: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string
+          phone: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          phone?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          phone?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
